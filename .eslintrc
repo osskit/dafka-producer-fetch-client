@@ -1,0 +1,7 @@
+{
+  "extends": ["@osskit"],
+  "ignorePatterns": [
+    "examples/**",
+    "dist/**"
+  ]
+}
