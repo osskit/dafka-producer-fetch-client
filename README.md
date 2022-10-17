@@ -1,6 +1,6 @@
 <div align="center">
  
-  ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/osskit/dafka-proudcer-fetch-client/bump) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/osskit/dafka-producer-fetch-client/blob/master/LICENSE.md) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+  ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/osskit/dafka-producer-fetch-client/bump) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/osskit/dafka-producer-fetch-client/blob/master/LICENSE.md) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 typescript-fetch client wrapper for `dafka-producer`  
 </div>
