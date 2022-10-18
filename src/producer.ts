@@ -12,11 +12,11 @@ const produce = <T>(payload: T, url: string, topic: string, key?: string) =>
     body: JSON.stringify(
       Array.isArray(payload)
         ? payload.map((p) => toProduceRequest(key ?? randomUUID(), topic, p))
-        : toProduceRequest(key ?? randomUUID(), topic, payload),
+        : [toProduceRequest(key ?? randomUUID(), topic, payload)],
     ),
   });
 
 export const createProducer =
-  <T>(url: string, topic: string, key?: string) =>
-  (payload: T) =>
+  <T>(url: string, topic: string) =>
+  (payload: T, key?: string) =>
     produce<T>(payload, url, topic, key);
