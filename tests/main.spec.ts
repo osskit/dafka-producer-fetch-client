@@ -88,5 +88,18 @@ describe('main', () => {
         method: 'POST',
       });
     });
+
+    it('should not call fetch if no records', async () => {
+      const fetch = jest.fn() as typeof global.fetch;
+      const producer = createProducer<{ foo: string }>({
+        url: 'http://localhost:8080',
+        topic: 'some-topic',
+        fetch,
+      });
+
+      await expect(producer([])).resolves.toBeUndefined();
+
+      expect(fetch).not.toHaveBeenCalled();
+    });
   });
 });

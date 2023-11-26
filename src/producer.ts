@@ -44,6 +44,10 @@ export interface ProducerOptions<Record> {
 export const createProducer =
   <Record>({ url, topic, fetch, keyExtractor }: ProducerOptions<Record>) =>
   async (records: Record[], extraHeaders?: object) => {
+    if (!records.length) {
+      return;
+    }
+
     await produce<Record>({
       fetch,
       records,
