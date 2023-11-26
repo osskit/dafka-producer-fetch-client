@@ -70,5 +70,23 @@ describe('main', () => {
         method: 'POST',
       });
     });
+
+    it('should call fetch with extra headers', async () => {
+      const fetch = jest.fn() as typeof global.fetch;
+      const producer = createProducer<{ foo: string }>({
+        url: 'http://localhost:8080',
+        topic: 'some-topic',
+        fetch,
+      });
+
+      await expect(producer([{ foo: 'bar' }], { 'x-foo': 'bar' })).resolves.toBeUndefined();
+
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8080', {
+        body: expect.any(String),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        headers: { 'content-type': 'application/json', 'x-foo': 'bar' },
+        method: 'POST',
+      });
+    });
   });
 });
