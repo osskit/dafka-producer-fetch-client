@@ -1,22 +1,33 @@
 import { randomUUID } from 'node:crypto';
 
-const toProduceRequest = <T>(key: string, topic: string, value: T) => ({
+type Fetch = typeof global.fetch;
+
+const toKafkaRecord = <Record>(key: string, topic: string, value: Record) => ({
   topic,
   key,
   value,
 });
 
-const produce = <T>(payload: T, url: string, topic: string, key?: string) =>
-  fetch(url, {
+const produce = async <Record>(fetch: Fetch, records: Record[], url: string, topic: string, keyExtractor?: (record: Record) => string) => {
+  await fetch(url, {
     method: 'POST',
-    body: JSON.stringify(
-      Array.isArray(payload)
-        ? payload.map((p) => toProduceRequest(key ?? randomUUID(), topic, p))
-        : [toProduceRequest(key ?? randomUUID(), topic, payload)],
-    ),
+    body: JSON.stringify(records.map((record) => toKafkaRecord(keyExtractor?.(record) ?? randomUUID(), topic, record))),
+    headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'content-type': 'application/json',
+    },
   });
+};
+
+export interface ProducerOptions<Record> {
+  url: string;
+  topic: string;
+  fetch: Fetch;
+  keyExtractor?: (record: Record) => string;
+}
 
 export const createProducer =
-  <T>(url: string, topic: string) =>
-  (payload: T, key?: string) =>
-    produce<T>(payload, url, topic, key);
+  <Record = never>({ url, topic, fetch, keyExtractor }: ProducerOptions<Record>) =>
+  async (records: Record[]) => {
+    await produce<Record>(fetch, records, url, topic, keyExtractor);
+  };

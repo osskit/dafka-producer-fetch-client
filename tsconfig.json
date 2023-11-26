@@ -1,5 +1,5 @@
 {
-  "extends": "@osskit/tsconfig",
+  "extends": "./node_modules/@osskit/tsconfig/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist"
   },
